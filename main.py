@@ -9,7 +9,7 @@ ylim = (-zoom,zoom)
 
 F = (0,0) # foyer
 P1, P2 = (-1,0), (0,1) # droite directrice
-e_min, e_max,e = 0, 2, 0.5 # excentricité
+e_min, e_max,e = 0, 100, 0.5 # excentricité
 
 
 def update_slider(val):
@@ -38,7 +38,7 @@ def update():
     foyer.set_data([F[0]],[F[1]])
     P1_plot.set_data([P1[0]],[P1[1]])
     P2_plot.set_data([P2[0]],[P2[1]])
-
+    print(d_plot)
     Z = evaluate(X, Y)
     if cs:
         cs.remove()
@@ -53,8 +53,8 @@ def evaluate(x,y):
     """
     dpf = np.sqrt((x-F[0])**2+(y-F[1])**2)
     dpd = abs(d_equ["a"]*x+d_equ["b"]*y+d_equ["c"]) / np.sqrt(d_equ["a"]**2 + d_equ["b"]**2)
-    #return dpf*dpd
-    return dpf/dpd
+    return dpf*dpd
+    #return dpf/dpd
 
 
 
@@ -87,11 +87,11 @@ cs = None
 fig, ax = plt.subplots()
 plt.subplots_adjust(bottom=0.25)
 
-d_plot, = ax.plot(xlim,ylim, 'r-', linewidth=2)
+d_plot, = ax.plot([],[],'r-', linewidth=2)
 dragging_foyer = False
 dragging_point = 0
 
-ax_e_slider = plt.axes([0.25, 0.1, 0.65, 0.03])
+ax_e_slider = plt.axes((0.25, 0.1, 0.65, 0.03))
 e_slider = Slider(
     ax=ax_e_slider,
     label="excentricity",
